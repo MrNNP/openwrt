@@ -9,18 +9,6 @@ RAMFS_COPY_BIN='fw_printenv fw_setenv'
 RAMFS_COPY_DATA='/etc/fw_env.config /var/lock/fw_printenv.lock'
 
 platform_check_image() {
-	local board=$(board_name)
-	local magic="$(get_magic_long "$1")"
-
-	[ "$#" -gt 1 ] && return 1
-
-	case "$board" in
-	buffalo,wsr-2533dhpl2|\
-	buffalo,wsr-2533dhpls)
-		buffalo_check_image "$board" "$magic" "$1" || return 1
-		;;
-	esac
-
 	return 0
 }
 
@@ -83,8 +71,6 @@ platform_do_upgrade() {
 	dlink,covr-x1860-a1|\
 	dlink,dap-x1860-a1|\
 	dlink,dir-1960-a1|\
-        dlink,dir-2055-a1|\
-	dlink,dir-2150-a1|\
 	dlink,dir-2640-a1|\
 	dlink,dir-2660-a1|\
 	dlink,dir-3040-a1|\
@@ -100,7 +86,6 @@ platform_do_upgrade() {
 	iptime,ax2004m|\
 	iptime,t5004|\
 	jcg,q20|\
-	keenetic,kn-3510|\
 	linksys,e5600|\
 	linksys,e7350|\
 	linksys,ea6350-v4|\
@@ -123,7 +108,6 @@ platform_do_upgrade() {
 	netgear,wac104|\
 	netgear,wac124|\
 	netgear,wax202|\
-	netgear,wax214v2|\
 	netis,wf2881|\
 	raisecom,msg1500-x-00|\
 	rostelecom,rt-fe-1a|\
@@ -144,19 +128,6 @@ platform_do_upgrade() {
 	z-router,zr-2660|\
 	zyxel,nwa50ax|\
 	zyxel,nwa55axe)
-		nand_do_upgrade "$1"
-		;;
-	buffalo,wsr-2533dhpl2|\
-	buffalo,wsr-2533dhpls)
-		buffalo_do_upgrade "$1"
-		;;
-	dna,valokuitu-plus-ex400)
-		dna_do_upgrade "$1"
-		;;
-	elecom,wrc-x1800gs)
-		[ "$(fw_printenv -n bootmenu_delay)" != "0" ] || \
-			fw_setenv bootmenu_delay 3
-		iodata_mstc_set_flag "bootnum" "persist" "0x4" "1,2" "1"
 		nand_do_upgrade "$1"
 		;;
 	iodata,wn-ax1167gr2|\

@@ -127,9 +127,9 @@
 			reg = <0>;
 		};
 
-		switch@1f {
+		switch@2 {
 			compatible = "mediatek,mt7531";
-			reg = <31>;
+			reg = <2>;
 			reset-gpios = <&pio 28 0>;
 			interrupt-controller;
 			#interrupt-cells = <1>;

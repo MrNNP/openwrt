@@ -180,8 +180,10 @@
 	nvmem-cell-names = "mac-address";
 };
 
-&ethphy0 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &switch0 {

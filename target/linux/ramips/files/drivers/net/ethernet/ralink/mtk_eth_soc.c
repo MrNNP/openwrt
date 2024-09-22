@@ -487,7 +487,11 @@ static void fe_get_stats64(struct net_device *dev,
 	}
 
 	do {
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
 		start = u64_stats_fetch_begin(&hwstats->syncp);
+#else
+		start = u64_stats_fetch_begin_irq(&hwstats->syncp);
+#endif
 		storage->rx_packets = hwstats->rx_packets;
 		storage->tx_packets = hwstats->tx_packets;
 		storage->rx_bytes = hwstats->rx_bytes;
@@ -499,7 +503,11 @@ static void fe_get_stats64(struct net_device *dev,
 		storage->rx_crc_errors = hwstats->rx_fcs_errors;
 		storage->rx_errors = hwstats->rx_checksum_errors;
 		storage->tx_aborted_errors = hwstats->tx_skip;
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 6, 0)
 	} while (u64_stats_fetch_retry(&hwstats->syncp, start));
+#else
+	} while (u64_stats_fetch_retry_irq(&hwstats->syncp, start));
+#endif
 
 	storage->tx_errors = priv->netdev->stats.tx_errors;
 	storage->rx_dropped = priv->netdev->stats.rx_dropped;
@@ -1354,8 +1362,13 @@ static int __init fe_init(struct net_device *dev)
 
 	if (priv->soc->switch_init) {
 		err = priv->soc->switch_init(priv);
-		if (err)
-			return dev_err_probe(&dev->dev, err, "failed to initialize switch core");
+		if (err) {
+			if (err == -EPROBE_DEFER)
+				return err;
+
+			netdev_err(dev, "failed to initialize switch core\n");
+			return -ENODEV;
+		}
 	}
 
 	fe_reset_phy(priv);
@@ -1409,6 +1422,7 @@ static void fe_uninit(struct net_device *dev)
 	fe_mdio_cleanup(priv);
 
 	fe_reg_w32(0, FE_REG_FE_INT_ENABLE);
+	free_irq(dev->irq, dev);
 }
 
 static int fe_do_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
@@ -1474,7 +1488,7 @@ static const struct net_device_ops fe_netdev_ops = {
 	.ndo_start_xmit		= fe_start_xmit,
 	.ndo_set_mac_address	= fe_set_mac_address,
 	.ndo_validate_addr	= eth_validate_addr,
-	.ndo_eth_ioctl		= fe_do_ioctl,
+	.ndo_do_ioctl		= fe_do_ioctl,
 	.ndo_change_mtu		= fe_change_mtu,
 	.ndo_tx_timeout		= fe_tx_timeout,
 	.ndo_get_stats64        = fe_get_stats64,

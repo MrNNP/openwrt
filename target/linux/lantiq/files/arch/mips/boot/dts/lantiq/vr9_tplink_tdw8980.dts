@@ -25,5 +25,5 @@
 &pci0 {
 	status = "okay";
 
-	reset-gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
+	gpio-reset = <&gpio 21 GPIO_ACTIVE_HIGH>;
 };

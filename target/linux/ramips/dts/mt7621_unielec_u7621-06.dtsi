@@ -81,8 +81,10 @@
 	phy-handle = <&ethphy4>;
 };
 
-&ethphy4 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy4: ethernet-phy@4 {
+		reg = <4>;
+	};
 };
 
 &switch0 {

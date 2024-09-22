@@ -132,6 +132,7 @@
 
 &sdhci {
 	status = "okay";
+	mediatek,cd-low;
 };
 
 &wmac {

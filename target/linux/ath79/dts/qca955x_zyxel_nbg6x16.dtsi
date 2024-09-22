@@ -103,8 +103,7 @@
 &wmac {
 	status = "okay";
 
-	nvmem-cells = <&cal_art_1000>;
-	nvmem-cell-names = "calibration";
+	mtd-cal-data = <&art 0x1000>;
 };
 
 &usb_phy0 {

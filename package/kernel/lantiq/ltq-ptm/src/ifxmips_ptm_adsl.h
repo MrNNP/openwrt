@@ -35,6 +35,7 @@
 #include "ifxmips_ptm_fw_regs_adsl.h"
 
 #define CONFIG_IFXMIPS_DSL_CPE_MEI
+#define INT_NUM_IM2_IRL24	(INT_NUM_IM2_IRL0 + 24)
 
 #define IFX_REG_W32(_v, _r)               __raw_writel((_v), (volatile unsigned int *)(_r))
 #define IFX_REG_R32(_r)                    __raw_readl((volatile unsigned int *)(_r))
@@ -103,7 +104,6 @@ struct ptm_itf {
 
 struct ptm_priv_data {
     struct ptm_itf                  itf[MAX_ITF_NUMBER];
-    int                             irq;
 
     void                           *rx_desc_base;
     void                           *tx_desc_base;

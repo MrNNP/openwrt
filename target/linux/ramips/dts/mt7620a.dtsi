@@ -32,35 +32,6 @@
 		compatible = "mti,cpu-interrupt-controller";
 	};
 
-	mmc_clk: mmc-clock {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <48000000>;
-		clock-accuracy = <100>;
-	};
-
-	mmc_reg_1v8: regulator-1v8 {
-		compatible = "regulator-fixed";
-
-		enable-active-high;
-
-		regulator-always-on;
-		regulator-max-microvolt = <1800000>;
-		regulator-min-microvolt = <1800000>;
-		regulator-name = "mmc_io";
-	};
-
-	mmc_reg_3v3: regulator-3v3 {
-		compatible = "regulator-fixed";
-
-		enable-active-high;
-
-		regulator-always-on;
-		regulator-max-microvolt = <3300000>;
-		regulator-min-microvolt = <3300000>;
-		regulator-name = "mmc_power";
-	};
-
 	palmbus: palmbus@10000000 {
 		compatible = "palmbus";
 		reg = <0x10000000 0x200000>;
@@ -77,7 +48,7 @@
 		};
 
 		timer: timer@100 {
-			compatible = "ralink,rt2880-timer";
+			compatible = "ralink,mt7620a-timer", "ralink,rt2880-timer";
 			reg = <0x100 0x20>;
 
 			clocks = <&sysc 5>;
@@ -87,7 +58,7 @@
 		};
 
 		watchdog: watchdog@120 {
-			compatible = "ralink,rt2880-wdt";
+			compatible = "ralink,mt7620a-wdt", "ralink,rt2880-wdt";
 			reg = <0x120 0x10>;
 
 			clocks = <&sysc 6>;
@@ -100,7 +71,7 @@
 		};
 
 		intc: intc@200 {
-			compatible = "ralink,rt2880-intc";
+			compatible = "ralink,mt7620a-intc", "ralink,rt2880-intc";
 			reg = <0x200 0x100>;
 
 			interrupt-controller;
@@ -135,7 +106,7 @@
 		};
 
 		gpio0: gpio@600 {
-			compatible = "ralink,rt2880-gpio";
+			compatible = "ralink,mt7620a-gpio", "ralink,rt2880-gpio";
 			reg = <0x600 0x34>;
 
 			interrupt-parent = <&intc>;
@@ -145,13 +116,14 @@
 			#gpio-cells = <2>;
 
 			ngpios = <24>;
+			ralink,gpio-base = <0>;
 			ralink,register-map = [ 00 04 08 0c
 						20 24 28 2c
 						30 34 ];
 		};
 
 		gpio1: gpio@638 {
-			compatible = "ralink,rt2880-gpio";
+			compatible = "ralink,mt7620a-gpio", "ralink,rt2880-gpio";
 			reg = <0x638 0x24>;
 
 			interrupt-parent = <&intc>;
@@ -161,6 +133,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <16>;
+			ralink,gpio-base = <24>;
 			ralink,register-map = [ 00 04 08 0c
 						10 14 18 1c
 						20 24 ];
@@ -169,7 +142,7 @@
 		};
 
 		gpio2: gpio@660 {
-			compatible = "ralink,rt2880-gpio";
+			compatible = "ralink,mt7620a-gpio", "ralink,rt2880-gpio";
 			reg = <0x660 0x24>;
 
 			interrupt-parent = <&intc>;
@@ -179,6 +152,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <32>;
+			ralink,gpio-base = <40>;
 			ralink,register-map = [ 00 04 08 0c
 						10 14 18 1c
 						20 24 ];
@@ -187,7 +161,7 @@
 		};
 
 		gpio3: gpio@688 {
-			compatible = "ralink,rt2880-gpio";
+			compatible = "ralink,mt7620a-gpio", "ralink,rt2880-gpio";
 			reg = <0x688 0x24>;
 
 			interrupt-parent = <&intc>;
@@ -197,6 +171,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <1>;
+			ralink,gpio-base = <72>;
 			ralink,register-map = [ 00 04 08 0c
 						10 14 18 1c
 						20 24 ];
@@ -245,7 +220,7 @@
 		};
 
 		spi0: spi@b00 {
-			compatible = "ralink,rt2880-spi";
+			compatible = "ralink,mt7620a-spi", "ralink,rt2880-spi";
 			reg = <0xb00 0x40>;
 
 			clocks = <&sysc 10>;
@@ -319,7 +294,7 @@
 		};
 
 		gdma: gdma@2800 {
-			compatible = "ralink,rt3883-gdma";
+			compatible = "ralink,mt7620a-gdma", "ralink,rt3883-gdma";
 			reg = <0x2800 0x800>;
 
 			resets = <&sysc 14>;
@@ -490,14 +465,14 @@
 		mediatek,switch = <&gsw>;
 
 		port@4 {
-			compatible = "mediatek,eth-port";
+			compatible = "mediatek,mt7620a-gsw-port", "mediatek,eth-port";
 			reg = <4>;
 
 			status = "disabled";
 		};
 
 		port@5 {
-			compatible = "mediatek,eth-port";
+			compatible = "mediatek,mt7620a-gsw-port", "mediatek,eth-port";
 			reg = <5>;
 
 			status = "disabled";
@@ -522,34 +497,15 @@
 		interrupts = <17>;
 	};
 
-	sdhci: mmc@10130000 {
-		compatible = "mediatek,mt7620-mmc", "ralink,mt7620-sdhci";
+	sdhci: sdhci@10130000 {
+		compatible = "ralink,mt7620-sdhci";
 		reg = <0x10130000 0x4000>;
-
-		bus-width = <4>;
-
-		cap-mmc-highspeed;
-		cap-sd-highspeed;
-
-		clocks = <&mmc_clk>, <&mmc_clk>;
-		clock-names = "source", "hclk";
-
-		disable-wp;
 
 		interrupt-parent = <&intc>;
 		interrupts = <14>;
 
-		max-frequency = <48000000>;
-
-		pinctrl-names = "default", "state_uhs";
+		pinctrl-names = "default";
 		pinctrl-0 = <&sdhci_pins>;
-		pinctrl-1 = <&sdhci_pins>;
-
-		resets = <&sysc 30>;
-		reset-names = "hrst";
-
-		vmmc-supply = <&mmc_reg_3v3>;
-		vqmmc-supply = <&mmc_reg_1v8>;
 
 		status = "disabled";
 	};

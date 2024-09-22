@@ -54,13 +54,13 @@
 
 		led_wlan2g {
 			label = "green:wlan2g";
-			gpios = <&tlmm 47 GPIO_ACTIVE_HIGH>;
+			gpio = <&tlmm 47 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "phy1radio";
 		};
 
 		led_wlan5g {
 			label = "green:wlan5g";
-			gpios = <&tlmm 48 GPIO_ACTIVE_HIGH>;
+			gpio = <&tlmm 48 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "phy0radio";
 		};
 

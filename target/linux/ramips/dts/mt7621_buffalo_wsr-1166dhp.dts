@@ -155,7 +155,7 @@
 			};
 
 			partition@50000 {
-				compatible = "brcm,trx";
+				compatible = "openwrt,trx";
 				label = "firmware";
 				reg = <0x50000 0xf90000>;
 			};
@@ -174,8 +174,10 @@
 	phy-handle = <&ethphy4>;
 };
 
-&ethphy4 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy4: ethernet-phy@4 {
+		reg = <4>;
+	};
 };
 
 &switch0 {

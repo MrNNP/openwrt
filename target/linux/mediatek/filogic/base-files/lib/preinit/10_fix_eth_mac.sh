@@ -17,15 +17,12 @@ preinit_set_mac_address() {
 		ip link set dev eth0 address "$addr"
 		ip link set dev eth1 address "$addr"
 		;;
-	mercusys,mr90x-v1|\
-	tplink,re6000xd)
+	mercusys,mr90x-v1)
 		addr=$(get_mac_binary "/tmp/tp_data/default-mac" 0)
 		ip link set dev eth1 address "$(macaddr_add $addr 1)"
 		;;
 	smartrg,sdg-8612|\
-	smartrg,sdg-8614|\
-	smartrg,sdg-8733|\
-	smartrg,sdg-8734)
+	smartrg,sdg-8614)
 		addr=$(mmc_get_mac_ascii mfginfo MFG_MAC)
 		lan_addr=$(macaddr_add $addr 1)
 		ip link set dev wan address "$addr"

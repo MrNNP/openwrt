@@ -111,8 +111,10 @@
 	status = "okay";
 };
 
-&ethphy4 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy4: ethernet-phy@4 {
+		reg = <4>;
+	};
 };
 
 &gmac0 {

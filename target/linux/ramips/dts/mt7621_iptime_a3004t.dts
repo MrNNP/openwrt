@@ -93,6 +93,10 @@
 					reg = <0x4 0x6>;
 					#nvmem-cell-cells = <1>;
 				};
+
+				macaddr_factory_8004: macaddr@8004 {
+					reg = <0x8004 0x6>;
+				};
 			};
 		};
 
@@ -131,8 +135,10 @@
 	nvmem-cell-names = "mac-address";
 };
 
-&ethphy0 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &switch0 {

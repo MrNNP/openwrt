@@ -175,9 +175,6 @@ platform_do_upgrade() {
 	linksys,whw03v2)
 		platform_do_upgrade_linksys "$1"
 		;;
-	linksys,whw03)
-		platform_do_upgrade_linksys_emmc "$1"
-		;;
 	meraki,mr33 |\
 	meraki,mr74)
 		CI_KERNPART="part.safe"
@@ -239,8 +236,7 @@ platform_do_upgrade() {
 platform_copy_config() {
 	case "$(board_name)" in
 	glinet,gl-b2200 |\
-	google,wifi |\
-	linksys,whw03)
+	google,wifi)
 		emmc_copy_config
 		;;
 	esac

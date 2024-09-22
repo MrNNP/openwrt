@@ -64,7 +64,7 @@
 		regulator-name = "usb_vbus";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		gpios = <&gpio 10 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio 10 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 	};
 
@@ -155,8 +155,11 @@
 	};
 };
 
-&ethphy0 {
-	/delete-property/ interrupts;
+
+&mdio {
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &state_default {

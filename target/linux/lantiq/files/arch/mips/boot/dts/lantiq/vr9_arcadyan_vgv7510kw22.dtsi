@@ -106,7 +106,7 @@
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 
-		gpios = <&gpio 47 GPIO_ACTIVE_HIGH>;
+		gpio = <&gpio 47 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 	};
 };
@@ -169,9 +169,6 @@
 		label = "wan";
 		phy-mode = "mii";
 		phy-handle = <&phy1>;
-
-		nvmem-cells = <&macaddr_boardconfig_16 2>;
-		nvmem-cell-names = "mac-address";
 	};
 	port@2 {
 		reg = <2>;
@@ -233,7 +230,7 @@
 
 &pci0 {
 	status = "okay";
-	reset-gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
+	gpio-reset = <&gpio 21 GPIO_ACTIVE_HIGH>;
 
 	wifi@1814,3592 {
 		compatible = "pci1814,3592";

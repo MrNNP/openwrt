@@ -17,13 +17,13 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led-0 {
+		lan {
 			function = LED_FUNCTION_LAN;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
 		};
 
-		led-1 {
+		usb {
 			function = LED_FUNCTION_USB;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
@@ -31,19 +31,19 @@
 			linux,default-trigger = "usbport";
 		};
 
-		led_wps: led-2 {
+		led_wps: wps {
 			function = LED_FUNCTION_WPS;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
 		};
 
-		led-3 {
+		wan {
 			function = LED_FUNCTION_WAN;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
 		};
 
-		led-4 {
+		wlan {
 			function = LED_FUNCTION_WLAN;
 			color = <LED_COLOR_ID_BLUE>;
 			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;

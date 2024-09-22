@@ -95,6 +95,11 @@
 	nvmem-cell-names = "mac-address";
 };
 
+&wmac {
+	nvmem-cells = <&eeprom_factory_0>;
+	nvmem-cell-names = "eeprom";
+};
+
 &esw {
 	mediatek,portmap = <0x3e>;
 	mediatek,portdisable = <0x2a>;

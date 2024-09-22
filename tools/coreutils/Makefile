@@ -8,11 +8,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils
 PKG_CPE_ID:=cpe:/a:gnu:coreutils
-PKG_VERSION:=9.5
+PKG_VERSION:=9.3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@GNU/coreutils
-PKG_HASH:=767ae6a22950ec42f3ba5f7c1de79dd27800ee8e9b8642da5dedb5974a1741e5
+PKG_HASH:=a33d2c0bc49be3c79a4794944dcd87103bf497b53a14bafcd431c8ca53975252
 
 HOST_BUILD_PARALLEL := 1
 
@@ -21,12 +21,6 @@ PKG_PROGRAMS:=date readlink touch ln chown ginstall
 include $(INCLUDE_DIR)/host-build.mk
 
 export GNULIB_SRCDIR:=$(HOST_GNULIB_SRCDIR)
-
-HOST_GNULIB_SKIP := \
-	lib/nstrftime.c \
-	lib/fprintftime.c \
-	lib/fcntl.in.h \
-	lib/locale.in.h
 
 HOST_CONFIGURE_ARGS += \
 	 --enable-install-program=$(subst $(space),$(comma),$(strip $(PKG_PROGRAMS)))
@@ -56,7 +50,7 @@ endef
 
 define Host/Configure
 	$(if $(QUILT),$(call Host/Bootstrap))
-	$(foreach src,$(HOST_GNULIB_SKIP),mv -f $(HOST_BUILD_DIR)/$(src)~ $(HOST_BUILD_DIR)/$(src) || true; )
+	-$(CP) $(HOST_BUILD_DIR)/lib/time.in.h~ $(HOST_BUILD_DIR)/lib/time.in.h # @GNULIB_TIME@ not defined
 	$(call Host/Configure/Default)
 endef
 

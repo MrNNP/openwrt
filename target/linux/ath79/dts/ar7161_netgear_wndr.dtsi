@@ -19,7 +19,8 @@
 		compatible = "reset-leds";
 
 		usb_led {
-			label = "green:usb";
+			function = LED_FUNCTION_USB;
+			color = <LED_COLOR_ID_GREEN>;
 			resets = <&rst 12>;
 			trigger-sources = <&usb_ohci_port>, <&usb_ehci_port>;
 			linux,default-trigger = "usbport";

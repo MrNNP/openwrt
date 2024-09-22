@@ -17,8 +17,6 @@ include $(INCLUDE_DIR)/host-build.mk
 
 HOSTCC:= $(HOSTCC_NOCACHE)
 
-HOST_CFLAGS += $(HOST_FPIC)
-
 HOST_MAKE_FLAGS += \
 	BACKTRACE=0 \
 	HAVE_THREAD=1 \
@@ -33,8 +31,7 @@ define Host/Compile
 endef
 
 define Host/Install
-	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR)/lib install-static install-includes PREFIX=$(HOST_BUILD_PREFIX)
-	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR)/lib install-pc MT=1 PREFIX=$(HOST_BUILD_PREFIX)
+	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR)/lib install-mt-pc install-static install-includes PREFIX=$(HOST_BUILD_PREFIX)
 	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR)/programs install PREFIX=$(HOST_BUILD_PREFIX)
 endef
 

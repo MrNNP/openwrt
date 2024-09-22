@@ -19,13 +19,13 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led-0 {
+		lan {
 			function = LED_FUNCTION_LAN;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
 		};
 
-		led-1 {
+		usb {
 			function = LED_FUNCTION_USB;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
@@ -33,19 +33,19 @@
 			linux,default-trigger = "usbport";
 		};
 
-		led_wps: led-2 {
+		led_wps: wps {
 			function = LED_FUNCTION_WPS;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
 		};
 
-		led-3 {
+		wan {
 			function = LED_FUNCTION_WAN;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
 		};
 
-		led-4 {
+		wlan {
 			function = LED_FUNCTION_WLAN;
 			color = <LED_COLOR_ID_GREEN>;
 			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
@@ -55,7 +55,8 @@
 
 	rtl8367rb {
 		compatible = "realtek,rtl8367b";
-		realtek,extif = <6 1 0 1 1 1 1 1 1 2>;
+		cpu_port = <6>;
+		realtek,extif1 = <1 0 1 1 1 1 1 1 2>;
 		mii-bus = <&mdio0>;
 	};
 };
@@ -70,6 +71,9 @@
 &ethernet {
 	pinctrl-names = "default";
 	pinctrl-0 = <&rgmii1_pins &rgmii2_pins &mdio_pins>;
+
+	nvmem-cells = <&macaddr_rom_f100 0>;
+	nvmem-cell-names = "mac-address";
 
 	port@5 {
 		status = "okay";

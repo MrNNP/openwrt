@@ -12,7 +12,6 @@ use warnings;
 use File::Basename;
 use File::Copy;
 use Text::ParseWords;
-use JSON::PP;
 
 @ARGV > 2 or die "Syntax: $0 <target dir> <filename> <hash> <url filename> [<mirror> ...]\n";
 
@@ -55,21 +54,6 @@ sub localmirrors {
 	$mirror and push @mlist, split(/;/, $mirror);
 
 	return @mlist;
-}
-
-sub projectsmirrors {
-	my $project = shift;
-	my $append = shift;
-
-	open (PM, "$scriptdir/projectsmirrors.json") ||
-		die "Can´t open $scriptdir/projectsmirrors.json: $!\n";
-	local $/;
-	my $mirror_json = <PM>;
-	my $mirror = decode_json $mirror_json;
-
-	foreach (@{$mirror->{$project}}) {
-		push @mirrors, $_ . "/" . ($append or "");
-	}
 }
 
 sub which($) {
@@ -260,23 +244,49 @@ foreach my $mirror (@ARGV) {
 	if ($mirror =~ /^\@SF\/(.+)$/) {
 		# give sourceforge a few more tries, because it redirects to different mirrors
 		for (1 .. 5) {
-			projectsmirrors '@SF', $1;
+			push @mirrors, "https://downloads.sourceforge.net/$1";
 		}
 	} elsif ($mirror =~ /^\@OPENWRT$/) {
 		# use OpenWrt source server directly
 	} elsif ($mirror =~ /^\@DEBIAN\/(.+)$/) {
-		projectsmirrors '@DEBIAN', $1;
+		push @mirrors, "https://ftp.debian.org/debian/$1";
+		push @mirrors, "https://mirror.leaseweb.com/debian/$1";
+		push @mirrors, "https://mirror.netcologne.de/debian/$1";
+		push @mirrors, "https://mirrors.tuna.tsinghua.edu.cn/debian/$1";
+		push @mirrors, "https://mirrors.ustc.edu.cn/debian/$1"
 	} elsif ($mirror =~ /^\@APACHE\/(.+)$/) {
-		projectsmirrors '@APACHE', $1;
+		push @mirrors, "https://dlcdn.apache.org/$1";
+		push @mirrors, "https://mirror.aarnet.edu.au/pub/apache/$1";
+		push @mirrors, "https://mirror.csclub.uwaterloo.ca/apache/$1";
+		push @mirrors, "https://archive.apache.org/dist/$1";
+		push @mirrors, "https://mirror.cogentco.com/pub/apache/$1";
+		push @mirrors, "https://mirror.navercorp.com/apache/$1";
+		push @mirrors, "https://ftp.jaist.ac.jp/pub/apache/$1";
+		push @mirrors, "https://apache.cs.utah.edu/apache.org/$1";
+		push @mirrors, "http://apache.mirrors.ovh.net/ftp.apache.org/dist/$1";
+		push @mirrors, "https://mirrors.tuna.tsinghua.edu.cn/apache/$1";
+		push @mirrors, "https://mirrors.ustc.edu.cn/apache/$1";
 	} elsif ($mirror =~ /^\@GITHUB\/(.+)$/) {
 		# give github a few more tries (different mirrors)
 		for (1 .. 5) {
-			projectsmirrors '@GITHUB', $1;
+			push @mirrors, "https://raw.githubusercontent.com/$1";
 		}
 	} elsif ($mirror =~ /^\@GNU\/(.+)$/) {
-		projectsmirrors '@GNU', $1;
+		push @mirrors, "https://mirror.csclub.uwaterloo.ca/gnu/$1";
+		push @mirrors, "https://mirror.netcologne.de/gnu/$1";
+		push @mirrors, "https://ftp.kddilabs.jp/GNU/gnu/$1";
+		push @mirrors, "https://www.nic.funet.fi/pub/gnu/gnu/$1";
+		push @mirrors, "https://mirror.navercorp.com/gnu/$1";
+		push @mirrors, "https://mirrors.rit.edu/gnu/$1";
+		push @mirrors, "https://ftp.gnu.org/gnu/$1";
+		push @mirrors, "https://mirrors.tuna.tsinghua.edu.cn/gnu/$1";
+		push @mirrors, "https://mirrors.ustc.edu.cn/gnu/$1";
 	} elsif ($mirror =~ /^\@SAVANNAH\/(.+)$/) {
-		projectsmirrors '@SAVANNAH', $1;
+		push @mirrors, "https://mirror.netcologne.de/savannah/$1";
+		push @mirrors, "https://mirror.csclub.uwaterloo.ca/nongnu/$1";
+		push @mirrors, "https://ftp.acc.umu.se/mirror/gnu.org/savannah/$1";
+		push @mirrors, "https://nongnu.uib.no/$1";
+		push @mirrors, "https://cdimage.debian.org/mirror/gnu.org/savannah/$1";
 	} elsif ($mirror =~ /^\@KERNEL\/(.+)$/) {
 		my @extra = ( $1 );
 		if ($filename =~ /linux-\d+\.\d+(?:\.\d+)?-rc/) {
@@ -285,16 +295,29 @@ foreach my $mirror (@ARGV) {
 			push @extra, "$extra[0]/longterm/v$1";
 		}
 		foreach my $dir (@extra) {
-			projectsmirrors '@KERNEL', $dir;
+			push @mirrors, "https://cdn.kernel.org/pub/$dir";
+			push @mirrors, "https://mirrors.mit.edu/kernel/$dir";
+			push @mirrors, "http://ftp.nara.wide.ad.jp/pub/kernel.org/$dir";
+			push @mirrors, "http://www.ring.gr.jp/archives/linux/kernel.org/$dir";
+			push @mirrors, "https://ftp.riken.jp/Linux/kernel.org/$dir";
+			push @mirrors, "https://www.mirrorservice.org/sites/ftp.kernel.org/pub/$dir";
+			push @mirrors, "https://mirrors.ustc.edu.cn/kernel.org/$dir";
 		}
 	} elsif ($mirror =~ /^\@GNOME\/(.+)$/) {
-		projectsmirrors '@GNOME', $1;
+		push @mirrors, "https://download.gnome.org/sources/$1";
+		push @mirrors, "https://mirror.csclub.uwaterloo.ca/gnome/sources/$1";
+		push @mirrors, "https://ftp.acc.umu.se/pub/GNOME/sources/$1";
+		push @mirrors, "http://ftp.cse.buffalo.edu/pub/Gnome/sources/$1";
+		push @mirrors, "http://ftp.nara.wide.ad.jp/pub/X11/GNOME/sources/$1";
+		push @mirrors, "https://mirrors.ustc.edu.cn/gnome/sources/$1";
 	} else {
 		push @mirrors, $mirror;
 	}
 }
 
-projectsmirrors '@OPENWRT';
+push @mirrors, 'https://sources.cdn.openwrt.org';
+push @mirrors, 'https://sources.openwrt.org';
+push @mirrors, 'https://mirror2.openwrt.org/sources';
 
 if (-f "$target/$filename") {
 	$hash_cmd and do {

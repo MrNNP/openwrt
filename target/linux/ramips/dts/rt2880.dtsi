@@ -88,6 +88,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <24>;
+			ralink,gpio-base = <0>;
 			ralink,register-map = [ 00 04 08 0c
 						20 24 28 2c
 						30 34 ];
@@ -101,6 +102,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <16>;
+			ralink,gpio-base = <24>;
 			ralink,register-map = [ 00 04 08 0c
 						10 14 18 1c
 						20 24 ];
@@ -116,6 +118,7 @@
 			#gpio-cells = <2>;
 
 			ngpios = <32>;
+			ralink,gpio-base = <40>;
 			ralink,register-map = [ 00 04 08 0c
 						10 14 18 1c
 						20 24 ];
@@ -215,7 +218,7 @@
 		status = "disabled";
 
 		port@0 {
-			compatible = "mediatek,eth-port";
+			compatible = "ralink,rt2880-port", "mediatek,eth-port";
 			reg = <0>;
 		};
 

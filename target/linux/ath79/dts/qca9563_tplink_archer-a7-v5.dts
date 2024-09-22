@@ -27,7 +27,7 @@
 		read-only;
 	};
 
-	partition@20000 {
+	uboot: partition@20000 {
 		label = "u-boot";
 		reg = <0x020000 0x020000>;
 		read-only;
@@ -39,7 +39,7 @@
 		compatible = "denx,uimage";
 	};
 
-	partition@f40000 {
+	info: partition@f40000 {
 		label = "info";
 		reg = <0xf40000 0x020000>;
 		read-only;
@@ -57,7 +57,7 @@
 		};
 	};
 
-	partition@f60000 {
+	config: partition@f60000 {
 		label = "config";
 		reg = <0xf60000 0x050000>;
 		read-only;
@@ -69,7 +69,7 @@
 		read-only;
 	};
 
-	partition@ff0000 {
+	art: partition@ff0000 {
 		label = "art";
 		reg = <0xff0000 0x010000>;
 		read-only;
@@ -78,10 +78,6 @@
 			compatible = "fixed-layout";
 			#address-cells = <1>;
 			#size-cells = <1>;
-
-			cal_art_1000: calibration@1000 {
-				reg = <0x1000 0x440>;
-			};
 
 			cal_art_5000: calibration@5000 {
 				reg = <0x5000 0x844>;
@@ -105,6 +101,8 @@
 };
 
 &wmac {
-	nvmem-cells = <&macaddr_info_8 0>, <&cal_art_1000>;
-	nvmem-cell-names = "mac-address", "calibration";
+	mtd-cal-data = <&art 0x1000>;
+
+	nvmem-cells = <&macaddr_info_8 0>;
+	nvmem-cell-names = "mac-address";
 };

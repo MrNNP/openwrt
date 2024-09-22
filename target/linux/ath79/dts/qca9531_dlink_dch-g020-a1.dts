@@ -109,20 +109,10 @@
 				read-only;
 			};
 
-			partition@10000 {
+			art: partition@10000 {
 				label = "art";
 				reg = <0x10000 0x10000>;
 				read-only;
-
-				nvmem-layout {
-					compatible = "fixed-layout";
-					#address-cells = <1>;
-					#size-cells = <1>;
-
-					cal_art_1000: calibration@1000 {
-						reg = <0x1000 0x440>;
-					};
-				};
 			};
 
 			partition@20000 {
@@ -173,6 +163,5 @@
 &wmac {
 	status = "okay";
 
-	nvmem-cells = <&cal_art_1000>;
-	nvmem-cell-names = "calibration";
+	mtd-cal-data = <&art 0x1000>;
 };

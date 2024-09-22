@@ -171,5 +171,5 @@
 
 &sdhci {
 	status = "okay";
-	cd-inverted;
+	mediatek,cd-high;
 };

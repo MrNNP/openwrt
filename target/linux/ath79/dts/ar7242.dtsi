@@ -16,7 +16,7 @@
 };
 
 &gpio {
-	ngpios = <18>;
+	ngpios = <20>;
 };
 
 &ahb {

@@ -7,7 +7,7 @@
 
 / {
 	compatible = "zyxel,wsm20", "mediatek,mt7621-soc";
-	model = "Zyxel WSM20";
+	model = "ZyXEL WSM20";
 
 	aliases {
 		led-boot = &led_system_white;
@@ -193,8 +193,10 @@
 	nvmem-cell-names = "mac-address";
 };
 
-&ethphy0 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &pcie {

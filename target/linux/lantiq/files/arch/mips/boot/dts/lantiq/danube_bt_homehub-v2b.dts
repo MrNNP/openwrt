@@ -219,7 +219,7 @@
 	pinctrl-0 = <&pci_gnt1_pins>, <&pci_req1_pins>;
 	pinctrl-names = "default";
 
-	reset-gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
+	gpio-reset = <&gpio 21 GPIO_ACTIVE_HIGH>;
 
 	wifi@168c,0027 {
 		compatible = "pci168c,0027";

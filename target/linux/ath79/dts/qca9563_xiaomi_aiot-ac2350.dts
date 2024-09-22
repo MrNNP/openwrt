@@ -108,7 +108,7 @@
 				read-only;
 			};
 
-			partition@60000 {
+			art: partition@60000 {
 				label = "art";
 				reg = <0x60000 0x10000>;
 				read-only;
@@ -120,10 +120,6 @@
 
 					macaddr_art_0: macaddr@0 {
 						reg = <0x0 0x6>;
-					};
-
-					cal_art_1000: calibration@1000 {
-						reg = <0x1000 0x440>;
 					};
 
 					precal_art_5000: pre-calibration@5000 {
@@ -189,8 +185,7 @@
 &wmac {
 	status = "okay";
 
-	nvmem-cells = <&cal_art_1000>;
-	nvmem-cell-names = "calibration";
+	mtd-cal-data = <&art 0x1000>;
 };
 
 &pcie {

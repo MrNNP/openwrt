@@ -13,7 +13,6 @@ platform_do_upgrade() {
 	local board=$(board_name)
 
 	case "$board" in
-	hpe,msm460|\
 	ocedo,panda|\
 	sophos,red-15w-rev1|\
 	watchguard,firebox-t10)

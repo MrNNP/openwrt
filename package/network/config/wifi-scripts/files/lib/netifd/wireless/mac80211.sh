@@ -1021,7 +1021,7 @@ $1 ~ /Band/ {
 }
 
 band_match && $3 == "MHz" && $4 == channel {
-	print int($2)
+	print $2
 	exit
 }
 '

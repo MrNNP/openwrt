@@ -181,7 +181,8 @@
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0000 0 0 0 0>;
-
+		nvmem-cells = <&eeprom_factory_8000>;
+		nvmem-cell-names = "eeprom";
 		ieee80211-freq-limit = <5000000 6000000>;
 	};
 };
@@ -190,13 +191,14 @@
 	wifi@0,0 {
 		compatible = "mediatek,mt76";
 		reg = <0x0000 0 0 0 0>;
-
+		nvmem-cells = <&eeprom_factory_0>;
+		nvmem-cell-names = "eeprom";
 		ieee80211-freq-limit = <2400000 2500000>;
 	};
 };
 
 &gmac0 {
-	nvmem-cells = <&macaddr_factory_21000 0>;
+	nvmem-cells = <&macaddr_factory_21000>;
 	nvmem-cell-names = "mac-address";
 };
 
@@ -206,8 +208,10 @@
 	phy-handle = <&ethphy0>;
 };
 
-&ethphy0 {
-	/delete-property/ interrupts;
+&mdio {
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
 };
 
 &switch0 {

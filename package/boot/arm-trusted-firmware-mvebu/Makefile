@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_VERSION:=2.9
-PKG_RELEASE:=2
+PKG_RELEASE:=1
 PKG_HASH:=76a66a1de0c01aeb83dfc7b72b51173fe62c6e51d6fca17cc562393117bed08b
 
 PKG_MAINTAINER:=Vladimir Vid <vladimir.vid@sartura.hr>
@@ -145,7 +145,7 @@ define Download/a3700-utils
   FILE:=$(A3700_UTILS_SOURCE)
   PROTO:=git
   URL:=https://github.com/MarvellEmbeddedProcessors/A3700-utils-marvell.git
-  SOURCE_VERSION:=a3e1c67bb378e1d8a938e1b826cb602af83628d2
+  VERSION:=a3e1c67bb378e1d8a938e1b826cb602af83628d2
   MIRROR_HASH:=0e6b8ef6423dcb52a5e282669a8aeebc6eea2d45a7c3a2c9a2fc7a749b3275a7
   SUBDIR:=$(A3700_UTILS_NAME)
 endef
@@ -158,8 +158,8 @@ define Download/cryptopp
   FILE:=$(CRYPTOPP_SOURCE)
   PROTO:=git
   URL:=https://github.com/weidai11/cryptopp.git
-  SOURCE_VERSION:=4d0cad5401d1a2c998b314bc89288c9620d3021d
-  MIRROR_HASH:=6c53c8b4dfa07df0c5915a90c20f70c64d150b652cf5ac52e2eae08c5a9cc7cd
+  VERSION:=4d0cad5401d1a2c998b314bc89288c9620d3021d
+  MIRROR_HASH:=74ec9e48ee04b9f2d9a1d8c4f2392ed0ab52780d7af0f70405d7bbb23d1504fa
   SUBDIR:=$(CRYPTOPP_NAME)
 endef
 
@@ -171,7 +171,7 @@ define Download/mv-ddr-marvell
   FILE:=$(MV_DDR_SOURCE)
   PROTO:=git
   URL:=https://github.com/MarvellEmbeddedProcessors/mv-ddr-marvell.git
-  SOURCE_VERSION:=541616bc5d25a0167c9901546255c55973e2c0f0
+  VERSION:=541616bc5d25a0167c9901546255c55973e2c0f0
   MIRROR_HASH:=9e86a986c7400ed1a72165a88150b6c494ebd87303b16314b43e5785e3f13068
   SUBDIR:=$(MV_DDR_NAME)
 endef
@@ -185,7 +185,7 @@ define Download/mox-boot-builder
   PROTO:=git
   SUBMODULES:=skip
   URL:=https://gitlab.nic.cz/turris/mox-boot-builder.git
-  SOURCE_VERSION:=604f8f51d97b4e59fa6d1e579101daa194d6ed2d
+  VERSION:=604f8f51d97b4e59fa6d1e579101daa194d6ed2d
   MIRROR_HASH:=b09337a7dde140f57e40133b6e7b7e1eb338e7cea9b15a3af6874824462f15f7
   SUBDIR:=$(MOX_BB_NAME)
 endef

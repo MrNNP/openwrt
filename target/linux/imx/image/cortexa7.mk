@@ -10,7 +10,6 @@ define Device/Default
   KERNEL_NAME := zImage
   KERNEL := kernel-bin | uImage none
   KERNEL_LOADADDR := 0x80008000
-  DTS_DIR := $(DTS_DIR)/nxp/imx
   IMAGES :=
 endef
 

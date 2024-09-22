@@ -90,10 +90,10 @@ ubilayout() {
 			rootsize="$( round_up "$( stat -c%s "$2" )" 1024 )"
 			;;
 		esac
-		ubivol $vol_id rootfs "$2" "$autoresize" "$rootsize"
+		ubivol $vol_id rootfs "$2" "$autoresize" "$rootsize" dynamic
 
 		vol_id=$(( vol_id + 1 ))
-		[ "$rootfs_type" = "ubifs" ] || ubivol $vol_id rootfs_data "" 1
+		[ "$rootfs_type" = "ubifs" ] || ubivol $vol_id rootfs_data "" 1 dymamic
 	fi
 }
 

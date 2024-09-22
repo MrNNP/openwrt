@@ -13,7 +13,8 @@ PKG_RELEASE:=1
 include $(INCLUDE_DIR)/host-build.mk
 
 define Host/Prepare
-	$(call Host/Prepare/Default)
+	mkdir -p $(HOST_BUILD_DIR)
+	$(CP) ./src/* $(HOST_BUILD_DIR)/
 	find $(HOST_BUILD_DIR) -name .svn | $(XARGS) rm -rf
 endef
 

@@ -211,7 +211,7 @@ ath11k_remove_regdomain() {
 	done
 }
 
-ath11k_set_macflag() {
+ath11k_fix_caldata() {
 	local target=$1
 
 	caldata_patch_data "0100" 0x3e 0xa "$target"

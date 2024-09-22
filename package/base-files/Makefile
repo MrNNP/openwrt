@@ -116,14 +116,6 @@ define Build/Compile/Default
 endef
 Build/Compile = $(Build/Compile/Default)
 
-ifneq ($(CONFIG_USE_APK),)
-ifndef CONFIG_BUILDBOT
-  define Package/base-files/install-key
-	mkdir -p $(1)/etc/apk/keys
-	$(CP) $(BUILD_KEY_APK_PUB) $(1)/etc/apk/keys/
-  endef
-endif
-else
 ifdef CONFIG_SIGNED_PACKAGES
   define Build/Configure
 	[ -s $(BUILD_KEY) -a -s $(BUILD_KEY).pub ] || \
@@ -138,8 +130,8 @@ ifndef CONFIG_BUILDBOT
   define Package/base-files/install-key
 	mkdir -p $(1)/etc/opkg/keys
 	$(CP) $(BUILD_KEY).pub $(1)/etc/opkg/keys/`$(STAGING_DIR_HOST)/bin/usign -F -p $(BUILD_KEY).pub`
+
   endef
-endif
 endif
 endif
 
@@ -242,23 +234,15 @@ endif
 		cat $(BIN_DIR)/feeds.buildinfo >>$(1)/etc/build.feeds; \
 		cat $(BIN_DIR)/version.buildinfo >>$(1)/etc/build.version)
 
-	$(if $(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE), \
-		rm -f $(1)/etc/banner.failsafe,)
-
-ifneq ($(CONFIG_USE_APK),)
-	mkdir -p $(1)/etc/apk/
-	$(call FeedSourcesAppendAPK,$(1)/etc/apk/repositories)
-	$(VERSION_SED_SCRIPT) $(1)/etc/apk/repositories
-
-	rm -f $(1)/etc/uci-defaults/13_fix-group-user
-else
 	$(if $(CONFIG_CLEAN_IPKG),, \
 		mkdir -p $(1)/etc/opkg; \
-		$(call FeedSourcesAppendOPKG,$(1)/etc/opkg/distfeeds.conf); \
+		$(call FeedSourcesAppend,$(1)/etc/opkg/distfeeds.conf); \
 		$(VERSION_SED_SCRIPT) $(1)/etc/opkg/distfeeds.conf)
 	$(if $(CONFIG_IPK_FILES_CHECKSUMS),, \
 		rm -f $(1)/sbin/pkg_check)
-endif
+
+	$(if $(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE), \
+		rm -f $(1)/etc/banner.failsafe,)
 endef
 
 ifneq ($(DUMP),1)

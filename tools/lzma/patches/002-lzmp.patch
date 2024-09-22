@@ -1,5 +1,7 @@
---- /dev/null
-+++ b/CPP/7zip/Compress/LZMA_Alone/lzmp.cpp
+Index: lzma-4.65/CPP/7zip/Compress/LZMA_Alone/lzmp.cpp
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ lzma-4.65/CPP/7zip/Compress/LZMA_Alone/lzmp.cpp	2009-06-01 22:01:10.000000000 +0200
 @@ -0,0 +1,895 @@
 +/*
 + * LZMA command line tool similar to gzip to encode and decode LZMA files.
@@ -896,8 +898,10 @@
 +	return STATUS_OK;
 +}
 +
---- /dev/null
-+++ b/CPP/7zip/Compress/LZMA_Alone/Exception.h
+Index: lzma-4.65/CPP/7zip/Compress/LZMA_Alone/Exception.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ lzma-4.65/CPP/7zip/Compress/LZMA_Alone/Exception.h	2009-06-01 22:01:10.000000000 +0200
 @@ -0,0 +1,45 @@
 +/* A couple of exceptions for lzmp.
 + *
@@ -944,8 +948,10 @@
 +
 +#endif
 +
---- a/CPP/7zip/Compress/LZMA_Alone/makefile.gcc
-+++ b/CPP/7zip/Compress/LZMA_Alone/makefile.gcc
+Index: lzma-4.65/CPP/7zip/Compress/LZMA_Alone/makefile.gcc
+===================================================================
+--- lzma-4.65.orig/CPP/7zip/Compress/LZMA_Alone/makefile.gcc	2009-06-01 22:00:54.000000000 +0200
++++ lzma-4.65/CPP/7zip/Compress/LZMA_Alone/makefile.gcc	2009-06-01 22:06:13.000000000 +0200
 @@ -1,9 +1,10 @@
 -PROG = lzma
 +PROG = lzma_alone
@@ -959,7 +965,7 @@
  
  ifdef SystemDrive
  IS_MINGW = 1
-@@ -45,12 +46,35 @@ OBJS = \
+@@ -45,12 +46,35 @@
    Lzma86Dec.o \
    Lzma86Enc.o \
  
@@ -996,15 +1002,17 @@
  LzmaAlone.o: LzmaAlone.cpp
  	$(CXX) $(CFLAGS) LzmaAlone.cpp
  
-@@ -131,5 +155,5 @@ Lzma86Enc.o: ../../../../C/LzmaUtil/Lzma
+@@ -131,5 +153,5 @@
  	$(CXX_C) $(CFLAGS) ../../../../C/LzmaUtil/Lzma86Enc.c
  
  clean:
 -	-$(RM) $(PROG) $(OBJS)
 +	-$(RM) $(PROG) $(PROG2) $(OBJS)
  
---- /dev/null
-+++ b/CPP/7zip/Compress/LZMA_Alone/lzma_version.h
+Index: lzma-4.65/CPP/7zip/Compress/LZMA_Alone/lzma_version.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ lzma-4.65/CPP/7zip/Compress/LZMA_Alone/lzma_version.h	2009-06-01 22:01:10.000000000 +0200
 @@ -0,0 +1,31 @@
 +#ifndef LZMA_VERSION_H
 +#define LZMA_VERSION_H
@@ -1037,9 +1045,11 @@
 +		"named COPYING.\n";
 +
 +#endif /* ifndef LZMA_VERSION_H */
---- a/CPP/Common/C_FileIO.h
-+++ b/CPP/Common/C_FileIO.h
-@@ -24,6 +24,7 @@ public:
+Index: lzma-4.65/CPP/Common/C_FileIO.h
+===================================================================
+--- lzma-4.65.orig/CPP/Common/C_FileIO.h	2009-05-15 23:33:51.000000000 +0200
++++ lzma-4.65/CPP/Common/C_FileIO.h	2009-06-01 22:06:56.000000000 +0200
+@@ -24,6 +24,7 @@
    bool Close();
    bool GetLength(UInt64 &length) const;
    off_t Seek(off_t distanceToMove, int moveMethod) const;

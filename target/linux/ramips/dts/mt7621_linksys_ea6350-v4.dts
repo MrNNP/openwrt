@@ -16,12 +16,14 @@
 	phy-handle = <&ethphy4>;
 };
 
-&ethphy0 {
-	interrupts = <0>;
-};
+&mdio {
+	ethernet-phy@0 {
+		status = "disabled";
+	};
 
-&ethphy4 {
-	/delete-property/ interrupts;
+	ethphy4: ethernet-phy@4 {
+		reg = <4>;
+	};
 };
 
 &switch0 {

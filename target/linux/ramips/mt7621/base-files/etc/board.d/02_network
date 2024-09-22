@@ -11,8 +11,6 @@ ramips_setup_interfaces()
 	alfa-network,ax1800rm|\
 	ampedwireless,ally-r1900k|\
 	asus,rt-ax53u|\
-	buffalo,wsr-2533dhpl2|\
-	buffalo,wsr-2533dhpls|\
 	gehua,ghl-r-001|\
 	h3c,tx1800-plus|\
 	h3c,tx1801-plus|\
@@ -47,7 +45,6 @@ ramips_setup_interfaces()
 	mikrotik,routerboard-m11g|\
 	netgear,eax12|\
 	netgear,ex6150|\
-	netgear,wax214v2|\
 	sercomm,na502|\
 	sercomm,na502s|\
 	thunder,timecloud|\
@@ -61,16 +58,12 @@ ramips_setup_interfaces()
 	ubnt,unifi-nanohd|\
 	yuncore,fap690|\
 	wavlink,wl-wn573hx1|\
-	wodesys,wd-r1802u|\
 	zyxel,nwa50ax|\
 	zyxel,nwa55axe)
 		ucidef_set_interface_lan "lan"
 		;;
 	asiarf,ap7621-001|\
-	dna,valokuitu-plus-ex400|\
 	humax,e10|\
-	keenetic,kn-3510|\
-	openfi,5pro|\
 	wavlink,ws-wn572hp3-4g|\
 	winstars,ws-wn583a6)
 		ucidef_set_interfaces_lan_wan "lan" "wan"
@@ -78,7 +71,6 @@ ramips_setup_interfaces()
 	asiarf,ap7621-nv1|\
 	beeline,smartbox-flash|\
 	beeline,smartbox-giga|\
-	elecom,wrc-x1800gs|\
 	glinet,gl-mt1300|\
 	iodata,wn-deax1800gr|\
 	iptime,a3002mesh|\
@@ -110,17 +102,16 @@ ramips_setup_interfaces()
 	dlink,covr-x1860-a1)
 		ucidef_set_interfaces_lan_wan "ethernet" "internet"
 		;;
-	elecom,wmc-s1267gs2|\
-	linksys,re6500|\
-	netgear,wac104|\
-	zyxel,lte3301-plus)
-		ucidef_set_interface_lan "lan1 lan2 lan3 lan4"
-		;;
 	gnubee,gb-pc1)
 		ucidef_set_interface_lan "ethblack ethblue"
 		;;
 	gnubee,gb-pc2)
 		ucidef_set_interface_lan "ethblack ethblue ethyellow"
+		;;
+	linksys,re6500|\
+	netgear,wac104|\
+	zyxel,lte3301-plus)
+		ucidef_set_interface_lan "lan1 lan2 lan3 lan4"
 		;;
 	mikrotik,routerboard-750gr3)
 		ucidef_set_interfaces_lan_wan "lan2 lan3 lan4 lan5" "wan"
@@ -222,9 +213,7 @@ ramips_setup_macs()
 		label_mac=$(macaddr_add "$wan_mac" 3)
 		lan_mac=$label_mac
 		;;
-	buffalo,wsr-1166dhp|\
-	buffalo,wsr-2533dhpl2|\
-	buffalo,wsr-2533dhpls)
+	buffalo,wsr-1166dhp)
 		wan_mac=$(mtd_get_mac_ascii board_data "mac")
 		lan_mac=$wan_mac
 		label_mac=$wan_mac
@@ -327,10 +316,6 @@ ramips_setup_macs()
 	netgear,wax202)
 		lan_mac=$(mtd_get_mac_ascii Config mac)
 		wan_mac=$(macaddr_add "$lan_mac" 1)
-		label_mac=$lan_mac
-		;;
-	netgear,wax214v2)
-		lan_mac=$(mtd_get_mac_ascii Config ethaddr)
 		label_mac=$lan_mac
 		;;
 	yuncore,ax820)

@@ -110,7 +110,7 @@
 			regulator-max-microvolt = <5000000>;
 			enable-active-high;
 			regulator-always-on;
-			gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+			gpio = <&gpio1 11 GPIO_ACTIVE_HIGH>;
 		};
 	};
 };
